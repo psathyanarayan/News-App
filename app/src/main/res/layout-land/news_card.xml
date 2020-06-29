@@ -14,43 +14,44 @@
 
     <ImageView
         android:id="@+id/news_img"
-        android:layout_width="333dp"
-        android:layout_height="201dp"
+        android:layout_width="668dp"
+        android:layout_height="200dp"
         android:layout_margin="12dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/News_Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:textSize="16sp"
-            android:text="asdsada"
             android:layout_marginTop="230dp"
-            android:maxLines="1"
             android:ellipsize="end"
-            android:textStyle="bold"/>
+            android:maxLines="1"
+            android:text="asdsada"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/News_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="15dp"
             android:ellipsize="end"
-            android:padding="10dp"
-            android:layout_marginStart="0dp"
             android:maxLines="5"
+            android:padding="10dp"
             android:text="addadasdasdcasdadasdasdasdasasd"
             android:textStyle="italic" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
