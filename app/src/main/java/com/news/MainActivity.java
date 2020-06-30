@@ -3,8 +3,11 @@ package com.news;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
+    SwipeRefreshLayout swipeRefreshLayout;
     String API_KEY = "93da7c8e41324fbf8dd9eed633539c80";
     String API_URL = "https://newsapi.org/v2/top-headlines?country=in&apiKey=" + API_KEY;
 
@@ -29,10 +33,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.rc);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
+        final ProgressDialog loader = new ProgressDialog(this);
+        loader.setMessage("Loading...");
+        loader.setCancelable(false);
+        loader.show();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, API_URL, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(final JSONObject response) {
+                swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        handleResponse(response);
+                        loader.dismiss();
+                    }
+                });
                 handleResponse(response);
+                loader.dismiss();
 
             }
 
@@ -41,12 +58,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                loader.dismiss();
                 Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                 Log.e("ERROR", error.toString());
 
             }
 
         });
+
+
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
     private void handleResponse(JSONObject response){

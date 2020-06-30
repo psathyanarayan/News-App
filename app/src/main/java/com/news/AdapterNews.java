@@ -1,6 +1,7 @@
 package com.news;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -31,9 +34,20 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.Vh> {
 
     @Override
     public void onBindViewHolder(@NonNull AdapterNews.Vh holder, int position) {
-        ModelNews modelNews = data.get(position);
+        final ModelNews modelNews = data.get(position);
         holder.title.setText(modelNews.newTitle);
         holder.desc.setText(modelNews.newDes);
+        Glide.with(context).load(modelNews.newimg).into(holder.img);
+        holder.img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(context,webView.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("URL",modelNews.getNewurl());
+                context.startActivity(intent);
+
+            }
+        });
 
     }
 
